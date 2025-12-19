@@ -11,10 +11,13 @@ from typing import BinaryIO, Optional
 from botocore.exceptions import ClientError, BotoCoreError
 from botocore.config import Config
 import boto3
+from pathlib import Path
 from dotenv import load_dotenv
 
-# Load environment variables from .env file
-load_dotenv()
+backend_dir = Path(__file__).resolve().parent.parent.parent
+env_path = backend_dir / ".env"
+
+load_dotenv(dotenv_path=env_path)
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -24,6 +27,7 @@ AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
 AWS_REGION = os.getenv("AWS_REGION", "us-east-1")
 S3_BUCKET_NAME = os.getenv("S3_BUCKET_NAME")
+
 
 # Configure boto3 with retry settings
 # This helps handle transient errors automatically

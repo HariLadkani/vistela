@@ -6,6 +6,7 @@ Add additional route imports and include them in the app using app.include_route
 """
 
 from fastapi import FastAPI
+from app.services.s3_service import upload_to_s3
 
 # Initialize FastAPI application
 app = FastAPI(
@@ -13,6 +14,10 @@ app = FastAPI(
     description="FastAPI backend application",
     version="1.0.0"
 )
+
+with open("test_video.mp4", "rb") as file:
+    s3_key = upload_to_s3(file, "test_video.mp4")
+    print("uploaded to s3", s3_key)
 
 
 @app.get("/health")
